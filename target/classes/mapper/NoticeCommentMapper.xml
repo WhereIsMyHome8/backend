@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 맵핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.mvc.mapper.NoticeCommentMapper">
+   <select id="selectByNoticeNum" parameterType="int" resultType="Notice_Comment">
+       select * from notice_comment where notice_num=#{num}
+   </select>
+
+    <insert id="insert" parameterType="Notice_Comment">
+        insert into notice_comment(notice_num, user_id, wdate, content) values(#{notice_num}, #{user_id}, sysdate(), #{content})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from notice_comment where no=#{no}
+    </delete>
+</mapper>

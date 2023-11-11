@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 맵핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.mvc.mapper.BaseMapper">
+
+    <select id="findDong" resultType="DealInfo" parameterType="String">
+        select i.apartmentName aptName, i.aptCode, i.lng, i.lat, min(d.dealAmount) minDeal, max(d.dealAmount) maxDeal, i.buildYear, d.area, i.jibun
+        from houseinfo i, housedeal d
+        where i.aptCode = d.aptCode and i.dongCode = #{dongcode}
+        group by i.aptCode;
+    </select>
+
+    <select id="findApart" parameterType="String" resultType="DealInfo">
+        select i.aptName, d.dealAmount, i.lng, i.lat, i.aptCode
+        from houseinfo i,
+             housedeal d
+        where i.aptCode = d.aptCode
+          and i.aptName = #{name}
+    </select>
+
+    <select id="getSidoList" resultType="SidoCode">
+        select sidoCode, sidoName from sidocode order by sidoCode;
+    </select>
+
+    <select id="getGugunList" parameterType="string" resultType="GugunCode">
+        select gugunCode, gugunName from guguncode where gugunCode like concat(#{sidocode}, '%') order by gugunCode;
+    </select>
+
+    <select id="getDongList" parameterType="string" resultType="DongCode">
+        select dongCode, dongName from dongcode where dongCode like concat(#{guguncode}, '%') and dongName is not null order by dongCode;
+    </select>
+
+    <select id="getDealInfo" parameterType="string" resultType="DealInfo">
+        select i.apartmentName aptName, i.aptCode, i.lng, i.lat, min(d.dealAmount) minDeal, max(d.dealAmount) maxDeal, i.buildYear, d.area
+        from houseinfo i, housedeal d
+        where i.aptCode = d.aptCode and i.aptCode = #{aptCode}
+    </select>
+    <select id="getDealInfos" parameterType="string" resultType="DealInfos">
+        select *
+        from housedeal
+        where aptCode = #{aptCode} limit 10
+    </select>
+</mapper>

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.mvc.mapper.InterestAreaMapper">
+    <insert id="insert" parameterType="InterestArea">
+        insert into interest_area(user_id, aptCode) values(#{userId}, #{aptCode})
+    </insert>
+
+    <select id="show" parameterType="string" resultType="InterestArea">
+        select a.user_id, a.aptCode, i.apartmentName aptName
+        from interest_area a, houseinfo i
+        where a.user_id = #{userId} and a.aptCode=i.aptCode
+    </select>
+
+    <delete id="delete" parameterType="InterestArea">
+        delete
+        from interest_area
+        where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteOne" parameterType="InterestArea">
+        delete
+        from interest_area
+        where user_id = #{userId} and aptCode=${aptCode}
+    </delete>
+
+
+
+
+</mapper>

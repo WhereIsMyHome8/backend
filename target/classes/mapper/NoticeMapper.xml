@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 맵핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.mvc.mapper.NoticeMapper">
+    <select id="selectAll" resultType="Notice">
+        select *
+        from notice
+        order by num
+    </select>
+
+    <select id="selectContent" resultType="Notice" parameterType="string">
+        select *
+        from notice
+        where content like concat('%', #{content}, '%')
+    </select>
+
+    <select id="selectTitle" resultType="Notice" parameterType="string">
+        select *
+        from notice
+        where title like concat('%', #{title}, '%')
+    </select>
+
+    <insert id="insert" parameterType="Notice">
+        insert into notice (title, content, wdate, count)
+        values (#{title}, #{content}, sysdate(), 0)
+    </insert>
+
+    <update id="update" parameterType="Notice">
+        update notice
+        set title=#{title},
+            content=#{content}
+        where num = #{num}
+    </update>
+
+    <update id="countUp" parameterType="string">
+        update notice
+        set count = count + 1
+        where num = #{num}
+    </update>
+
+    <delete id="delete" parameterType="string">
+        delete
+        from notice
+        where num = #{num}
+    </delete>
+
+    <select id="selectOne" parameterType="string" resultType="Notice">
+        select * from notice where num=#{num}
+    </select>
+</mapper>

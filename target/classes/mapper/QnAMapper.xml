@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 맵핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.mvc.mapper.QnAMapper">
+   <select id="selectAll" resultType="QnA">
+       select * from qna order by num ;
+   </select>
+
+    <select id="selectOne" resultType="QnA" parameterType="int">
+        select * from qna where num=#{num}
+    </select>
+
+    <select id="selectUser" resultType="QnA" parameterType="string">
+        select * from qna where user_id=#{user_id}
+    </select>
+
+
+    <update id="update" parameterType="QnA">
+        update qna set title=#{title}, content=#{content} where num=#{num}
+    </update>
+
+    <insert id="insert" parameterType="QnA">
+        insert into qna(title, content, wdate, count, user_id) values(#{title}, #{content}, sysdate(), 0, #{user_id})
+    </insert>
+
+    <delete id="delete" parameterType="int">
+        delete from qna where num=#{num}
+    </delete>
+
+    <update id="countUp" parameterType="int">
+        update qna set count = count + 1 where num=#{num}
+    </update>
+
+    <update id="complete" parameterType="QnA">
+        update qna set done = true where num=#{num}
+    </update>
+</mapper>

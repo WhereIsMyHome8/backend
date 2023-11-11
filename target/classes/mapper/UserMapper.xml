@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 이 파일과 맵핑되어 실행될 자바 매퍼 파일 정보 -->
+<mapper namespace="com.mvc.mapper.UserMapper">
+    <select id="check" parameterType="user" resultType="boolean">
+        select count(*) from user where id=#{id} and pass=#{pass}
+    </select>
+
+
+    <select id="checkemail" parameterType="user" resultType="boolean">
+        select count(*) from user where id=#{id} and email=#{email}
+    </select>
+
+    <update id="update" parameterType="user"   >
+        update user set  pass=#{pass}, name=#{name},email=#{email},phone=#{phone} where id=#{id}
+    </update>
+
+    <update id="updatepass" parameterType="user"   >
+        update user set  pass=#{pass} where id=#{id}
+    </update>
+
+    <insert id="signUp" parameterType="user">
+        insert into user values (#{id},#{pass}, #{name},#{email},#{phone}, null)
+    </insert>
+
+    <delete id="delete" parameterType="string">
+        delete from user where id=#{id}
+    </delete>
+
+    <select id="selectAll" resultType="user">
+        select * from user
+    </select>
+
+    <select id="selectOne" resultType="user">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="selectId" resultType="user" parameterType="string">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="selectName" resultType="user" parameterType="string">
+        select * from user where name like concat("%",#{name},"%")
+    </select>
+
+    <select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from user
+		where id = #{id}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update user
+		set token = #{token}
+		where id = #{id}
+	</update>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update user
+		set token = #{token, jdbcType=VARCHAR}
+		where id = #{id}
+	</update>
+    
+    
+</mapper>
